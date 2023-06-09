@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>BUSQUEDA DE CURSOS MCP</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    table {
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+    .table-container {
+      margin-bottom: 20px;
+    }
+    #logo {
+      margin-right: 10px;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+      $("#searchForm").submit(function(event) {
+        event.preventDefault(); // Evita el envío del formulario por defecto
+        var dni = $("#dniInput").val(); // Obtén el valor del campo de entrada
+
+        // Realiza la solicitud HTTP a tu API o archivo de datos (hoja de Google Sheets)
+        $.getJSON("https://sheets.googleapis.com/v4/spreadsheets/12wkx-qzGN76D3-HmrH9CUMKjq5ME7kwL49KvuSIwO98/values/CURSOS%20MCP!B1:W", {
+          key: "AIzaSyBS4DpiBZIfbjKp8DuZ3oZAw24VaB-MFlk",
+          majorDimension: "ROWS",
+          valueRenderOption: "FORMATTED_VALUE"
+        }, function(data) {
+          // Procesa los datos para mostrar los resultados de la búsqueda
+          var results = [];
+          var rows = data.values;
+          for (var i = 0; i < rows.length; i++) {
+            if (rows[i][0] == dni) {
+              results.push(rows[i]);
+            }
+          }
+
+          // Genera la tabla con los resultados de la búsqueda
+          var table = "<table><tr><th>Nombre</th><th>Herramientas</th><th>BloqueoT</th><th>BloqueoP</th><th>AlturaT</th><th>AlturaP</th><th>ATS-IPERC</th></tr>";
+          var table2 = "<table><tr><th>Ingreso-Salas</th><th>Trabajo-Caliente</th><th>Excavaciones</th><th>Espacio-Confinado</th><th>ManejoT</th><th>ManejoP</th></tr>";
+          for (var j = 0; j < results.length; j++) {
+            // Obtiene el valor de las celdas correspondientes
+            var nombre = results[j][1];
+            var herramientas = results[j][2];
+            var BloqueoT = results[j][3];
+            var BloqueoP = results[j][4];
+            var AlturaT = results[j][5];
+            var AlturaP = results[j][6];
+            var IngresoSalas = results[j][7];
+            var TrabajoCaliente = results[j][9];
+            var Excavaciones = results[j][10];
+            var EspacioConfinado = results[j][11];
+            var ats = results[j][12];
+            var manejoT = results[j][13];
+            var manejoP = results[j][14];
+
+            table += "<tr><td>" + nombre + "</td><td>" + herramientas + "</td><td>" + BloqueoT + "</td><td>" + BloqueoP + "</td><td>" + AlturaT + "</td><td>" + AlturaP + "</td><td>" + ats +"</td></tr>";
+            table2 += "<tr><td>" + IngresoSalas + "</td><td>" + TrabajoCaliente + "</td><td>" + Excavaciones + "</td><td>" + EspacioConfinado + "</td><td>" + manejoT + "</td><td>" + manejoP + "</td></tr>";
+          }
+          table += "</table>";
+          table2 += "</table>";
+
+          // Muestra las tablas de resultados en el área designada
+          $("#results").html('<div class="table-container">' + table + '</div>' + '<div class="table-container">' + table2 + '</div>');
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>
+    <img id="logo" src="https://drive.google.com/uc?export=view&id=1MgluIDwoBduKFWyq8ip2Pc6LMNaldxmz" alt="Logotipo">
+<h1>
+    BUSQUEDA DE CURSOS MCP
+  </h1>
+  <form id="searchForm">
+    <label for="dniInput">DNI:</label>
+    <input type="text" id="dniInput" name="dniInput" required>
+    <button type="submit">Buscar</button>
+  </form>
+  <div id="results"></div>
+</body>
+<h1>
+<h1>
+<h1>
+<h1>
+<small>¡¡¡¡¡Verificar vencimiento de un año, anticipar programación de cursos al area de seguridad!!!!!!
+</h1>
+<small>By. M.Bazan
+</html>
